@@ -24,5 +24,11 @@ RSpec.describe PostsController, type: :controller do
 			post = Post.last
 			expect(post.name).to eq("FREDO!!")
 		end
+
+		it "should properly deal with validation errors" do
+			post :create, params: { post: { name: '' } }
+			expect(response).to have_http_status(:unprocessable_entity)
+			expect(Post.count).to eq 0
+		end
 	end
 end
