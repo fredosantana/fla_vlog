@@ -16,4 +16,13 @@ RSpec.describe PostsController, type: :controller do
 		end
 	end
 
+	describe "posts#create action" do
+		it "should successfully create a new post in our database" do
+			post :create, params: { post: { name: 'FREDO!!' } }
+			expect(response).to redirect_to root_path
+
+			post = Post.last
+			expect(post.name).to eq("FREDO!!")
+		end
+	end
 end
