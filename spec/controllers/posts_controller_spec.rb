@@ -9,4 +9,11 @@ RSpec.describe PostsController, type: :controller do
   	end
 	end
 
+	describe "posts#new action" do
+		it "should successfully show the new form" do
+			get :new
+			expect(response).to have_http_status(:success)
+		end
+	end
+
 end
