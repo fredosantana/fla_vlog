@@ -11,21 +11,43 @@ RSpec.describe PostsController, type: :controller do
 
 	describe "posts#new action" do
 		it "should successfully show the new form" do
+			admin = Admin.create(
+    		email:                 'fakeuser@gmail.com',
+    		password:              'secretPassword',
+    		password_confirmation: 'secretPassword'
+  		)
+  	sign_in admin
+
 			get :new
 			expect(response).to have_http_status(:success)
 		end
 	end
 
 	describe "posts#create action" do
-		it "should successfully create a new post in our database" do
+		it "should successfully show the new form" do
+			admin = Admin.create(
+    		email:                 'fakeuser@gmail.com',
+    		password:              'secretPassword',
+    		password_confirmation: 'secretPassword'
+  		)
+  	sign_in admin
+  	
 			post :create, params: { post: { name: 'FREDO!!' } }
 			expect(response).to redirect_to root_path
 
 			post = Post.last
 			expect(post.name).to eq("FREDO!!")
+			expect(post.admin).to eq(admin)
 		end
 
-		it "should properly deal with validation errors" do
+		it "should successfully show the new form" do
+			admin = Admin.create(
+    		email:                 'fakeuser@gmail.com',
+    		password:              'secretPassword',
+    		password_confirmation: 'secretPassword'
+  		)
+  	sign_in admin
+
 			post :create, params: { post: { name: '' } }
 			expect(response).to have_http_status(:unprocessable_entity)
 			expect(Post.count).to eq 0
