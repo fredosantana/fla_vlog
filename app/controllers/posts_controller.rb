@@ -1,10 +1,12 @@
 class PostsController < ApplicationController
+	before_action :authenticate_admin!, only: [:new, :create]
+
 	def new
 		@post = Post.new
 	end
 
 	def create
-		@post = Post.create(post_params)
+		@post = current_admin.posts.create(post_params)
 		if @post.valid?
 			redirect_to root_path
 		else
