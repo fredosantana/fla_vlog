@@ -6,4 +6,9 @@ FactoryGirl.define do
 		password "secretPassword"
 		password_confirmation "secretPassword"
 	end
+
+	factory :post do
+    name "hello"
+    association :admin
+  end
 end

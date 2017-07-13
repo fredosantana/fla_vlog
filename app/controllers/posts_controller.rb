@@ -17,6 +17,13 @@ class PostsController < ApplicationController
 	def index
 	end
 
+	def show
+		@post = Post.find_by_id(params[:id])
+		if @post.blank?
+			render plain: 'Not Found :(', status: :not_found
+		end
+	end
+
 	private
 
 	def post_params
