@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-	before_action :authenticate_admin!, only: [:new, :create]
+	before_action :authenticate_admin!, only: [:new, :create, :edit, :update, :destroy]
 
 	def new
 		@post = Post.new
@@ -25,6 +25,9 @@ class PostsController < ApplicationController
 	def edit
 		@post = Post.find_by_id(params[:id])
 		return render_not_found if @post.blank?
+		if @post.admin != current_admin
+			render plain: 'Forbidden :(', status: :forbidden
+		end
 	end
 
 	def destroy
