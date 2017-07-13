@@ -27,6 +27,13 @@ class PostsController < ApplicationController
 		return render_not_found if @post.blank?
 	end
 
+	def destroy
+		@post = Post.find_by_id(params[:id])
+		return render_not_found if @post.blank?
+		@post.destroy
+		redirect_to root_path
+	end
+
 	def update
 		@post = Post.find_by_id(params[:id])
 		return render_not_found if @post.blank?
