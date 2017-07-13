@@ -3,6 +3,14 @@ require 'rails_helper'
 RSpec.describe PostsController, type: :controller do
 
 	describe "posts#destroy action" do
+		it "shouldn't allow admins who didn't create the post to destroy it" do
+			post = FactoryGirl.create(:post)
+			admin = FactoryGirl.create(:admin)
+			sign_in admin
+			delete :destroy, params: { id: post.id }
+			expect(response).to have_http_status(:forbidden)
+		end
+
 		it "shouldn't let unauthenticated admins destroy a post" do
 			post = FactoryGirl.create(:post)
 			delete :destroy, params: { id: post.id }
@@ -27,6 +35,14 @@ RSpec.describe PostsController, type: :controller do
 	end
 
 	describe "posts#update" do
+		it "shouldn't let admins who didn't create the post update it" do
+			post = FactoryGirl.create(:post)
+			admin = FactoryGirl.create(:admin)
+			sign_in admin
+			patch :update, params: { id: post.id, post: { name: 'DRUMPF' } }
+			expect(response).to have_http_status(:forbidden)
+		end
+
 		it "shouldn't let unauthenticated admins create a post" do
 			post = FactoryGirl.create(:post)
 			patch :update, params: { id: post.id, post: { name: "Fredo" } }

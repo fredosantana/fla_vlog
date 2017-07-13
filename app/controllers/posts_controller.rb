@@ -25,14 +25,13 @@ class PostsController < ApplicationController
 	def edit
 		@post = Post.find_by_id(params[:id])
 		return render_not_found if @post.blank?
-		if @post.admin != current_admin
-			render plain: 'Forbidden :(', status: :forbidden
-		end
+		return render_not_found(:forbidden) if @post.admin != current_admin
 	end
 
 	def destroy
 		@post = Post.find_by_id(params[:id])
 		return render_not_found if @post.blank?
+		return render_not_found(:forbidden) if @post.admin != current_admin
 		@post.destroy
 		redirect_to root_path
 	end
@@ -40,6 +39,7 @@ class PostsController < ApplicationController
 	def update
 		@post = Post.find_by_id(params[:id])
 		return render_not_found if @post.blank?
+		return render_not_found(:forbidden) if @post.admin != current_admin
 		
 		@post.update_attributes(post_params)
 		
@@ -56,8 +56,8 @@ class PostsController < ApplicationController
 		params.require(:post).permit(:name)
 	end
 
-	def render_not_found
-		render plain: 'Not Found :(', status: :not_found
+	def render_not_found(status=:not_found)
+		render plain: "#{status.to_s.titleize} :(", status: status
 	end
 
 end
