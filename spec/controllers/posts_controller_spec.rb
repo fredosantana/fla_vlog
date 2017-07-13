@@ -16,12 +16,8 @@ RSpec.describe PostsController, type: :controller do
 		end
 
 		it "should successfully show the new form" do
-			admin = Admin.create(
-    		email:                 'fakeuser@gmail.com',
-    		password:              'secretPassword',
-    		password_confirmation: 'secretPassword'
-  		)
-  	sign_in admin
+			admin = FactoryGirl.create(:admin)
+  		sign_in admin
 
 			get :new
 			expect(response).to have_http_status(:success)
@@ -35,12 +31,8 @@ RSpec.describe PostsController, type: :controller do
 		end
 
 		it "should successfully create a new post in our database" do
-			admin = Admin.create(
-    		email:                 'fakeuser@gmail.com',
-    		password:              'secretPassword',
-    		password_confirmation: 'secretPassword'
-  		)
-  	sign_in admin
+			admin = FactoryGirl.create(:admin)
+  		sign_in admin
 
 			post :create, params: { post: { name: 'FREDO!!' } }
 			expect(response).to redirect_to root_path
@@ -51,12 +43,8 @@ RSpec.describe PostsController, type: :controller do
 		end
 
 		it "should properly deal with validation errors" do
-			admin = Admin.create(
-    		email:                 'fakeuser@gmail.com',
-    		password:              'secretPassword',
-    		password_confirmation: 'secretPassword'
-  		)
-  	sign_in admin
+			admin = FactoryGirl.create(:admin)
+  		sign_in admin
 
 			post_count = Post.count
 			post :create, params: { post: { name: '' } }
