@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :comment do
+    
+  end
 	factory :admin do
 		sequence :email do |n|
 			"dummyEmail#{n}@gmail.com"
