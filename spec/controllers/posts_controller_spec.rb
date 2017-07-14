@@ -72,7 +72,7 @@ RSpec.describe PostsController, type: :controller do
 			sign_in post.admin
 
 			patch :update, params: { id: post.id, post: { name: ' '} }	
-			#expect(response).to have_http_status(:unprocessable_entity)
+			expect(response).to have_http_status(:unprocessable_entity)
 			post.reload
 			expect(post.name).to eq "Initial Value"
 		end
