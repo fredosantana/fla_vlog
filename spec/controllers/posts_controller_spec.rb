@@ -155,7 +155,14 @@ RSpec.describe PostsController, type: :controller do
 			admin = FactoryGirl.create(:admin)
   		sign_in admin
 
-			post :create, params: { post: { name: 'FREDO!!' } }
+			post :create, params: { 
+				post: { 
+					name: 'FREDO!!',
+					address: 'This is the address',
+					description: 'This is the description',
+					picture: fixture_file_upload("/picture.jpg", 'image/jpg') 
+					} 
+				}
 			expect(response).to redirect_to root_path
 
 			post = Post.last
