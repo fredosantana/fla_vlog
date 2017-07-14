@@ -15,6 +15,7 @@ class PostsController < ApplicationController
 	end
 
 	def index
+		@posts = Post.all
 	end
 
 	def show
@@ -53,7 +54,7 @@ class PostsController < ApplicationController
 	private
 
 	def post_params
-		params.require(:post).permit(:name)
+		params.require(:post).permit(:name, :description, :address, :picture)
 	end
 
 	def render_not_found(status=:not_found)
